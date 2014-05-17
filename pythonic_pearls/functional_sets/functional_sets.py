@@ -80,7 +80,7 @@ class FuncSet:
             else:
                 content_string += str(element) + ', '
 
-        print(content_string)
+        return content_string
 
 # The end, so to speak
 
