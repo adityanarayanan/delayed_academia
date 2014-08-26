@@ -1,11 +1,15 @@
+;;; package -- Summary
+;;; Commentary:
+;;; Code:
+
 ;; Load a different color scheme
 ;; (load-theme 'misterioso)
 (load-theme 'adwaita)
 
 (require 'package)
-;; Include Marmalade Emacs List Package Repository and MELPA Stable
-;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa-stable.milkbox.net/packages/") t)
+;; Include Marmalade Emacs List Package Repository and MELPA
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
 ;; Check if el-get is installed and install if necessary
@@ -56,14 +60,20 @@
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t) ;; optional
 
+;; JavaScript mode settings
+(require 'js2-refactor)
+;; (js2r-add-keybindings-with-prefix "C-c m") ;; JS refactor command shortcuts
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)) ;; associate all JS files with js2-mode
+(add-to-list 'auto-mode-alist '("\\.json$" . js2-mode)) ;; to recognize json files
+(add-hook 'js-mode-hook 'js2-minor-mode)
+(add-hook 'js2-mode-hook 'ac-js2-mode)
+(setq js2-highlight-level 3)
+
 ;; Permanently enable Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-;; Load Flymake for on the fly syntax checking
-;; (require 'flymake)
-
-;; Enable Flymake for source files where syntax checking is possible
-;; (add-hook 'find-file-hook 'flymake-find-file-hook)
+;; Set Flycheck to follow C++11 standard while checking c++ files
+(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
 ;; Remove default startup buffer
 (setq inhibit-startup-message t)
@@ -86,3 +96,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
